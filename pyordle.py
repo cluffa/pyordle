@@ -7,6 +7,7 @@ import os
 clearConsole = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 clearConsole()     
 
+# load data
 words = []
 with open('./wordle-allowed-guesses.txt') as f:
     for line in f:
@@ -19,6 +20,7 @@ with open('./wordle-answers-alphabetical.txt') as f:
         
 words = words + answers
 
+# game
 class pyordle():
     def __init__(self, answer = None):
         if answer == None:
@@ -33,6 +35,8 @@ class pyordle():
     
     def play_game(self):
         print("Game Started, Type Guess...")
+        
+        # input loop
         while(True):
             guess = input("")
             
@@ -48,10 +52,13 @@ class pyordle():
                 self.guesses.append(guess)
                 self.colors.append(self.color_guess(guess))
                 self.print_guesses()
-                if self.colors[-1] == ['green']*5:
+                
+                # win condition 
+                if guess == self.answer:
                     print("You Won!!!")
                     return ""
         
+    # defines color for each letter of a guess
     def color_guess(self, guess):
         colors = []
         for i, char in enumerate(guess):
@@ -63,6 +70,7 @@ class pyordle():
                 colors.append('red')
         return colors
     
+    # doesnt work
     def print_keyboard(self):
         alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         alphabet = [letter.upper for letter in alphabet]
@@ -78,10 +86,8 @@ class pyordle():
             else:
                 print(letter)
                 
-
-        
-        
-    def print_guesses(self):
+    # prints current game state
+    def print_guesses(self, sep = "|"):
         clearConsole()
         print("Game Started, Type Guess...")
         #self.print_keyboard()
@@ -90,13 +96,14 @@ class pyordle():
             word_out = []
             for i, char in enumerate(word):
                 # lsit of letter rows
-                letter = figlet_format(char).strip().split("\n")
+                letter = figlet_format(char).split("\n")
                 
                 # color each row
                 colored_letter = [colored(char, colors[i]) for char in letter]
+                colored_letter = colored_letter[0:5]
                 
                 # finding max length row in letter
-                max_len = 0
+                max_len = 18
                 for line in colored_letter:
                     l = len(line)
                     if l > max_len:
@@ -105,16 +112,13 @@ class pyordle():
                 # standardize row length
                 for idx, line in enumerate(colored_letter):
                     add = max_len - len(line)
-                    if idx == 0:
-                        colored_letter[idx] = " "*add + line
-                    else:
-                        colored_letter[idx] = line + " "*add
+                    colored_letter[idx] = " " + line + " " + " "*add
                 
                 word_out.append(colored_letter)
             
             # add rows for words
-            sep = "|"
             colored_word = [i+sep+j+sep+k+sep+l+sep+m for i,j,k,l,m in zip(*word_out)]
+            colored_word.append("__________________________________________________________")
             
             # join lines
             out = '\n'
