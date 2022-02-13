@@ -37,16 +37,16 @@ class pyordle():
         print("Game Started, Type Guess...")
         
         # input loop
-        while(True):
+        while True:
             guess = input("")
             
             if guess == "":
                 print("exiting...")
                 return ""
 
-            if(len(guess) != 5):
+            if len(guess) != 5:
                 print("must be 5 letters")
-            elif(guess not in words):
+            elif guess not in words:
                 print("not a word")
             else:
                 self.guesses.append(guess)
@@ -56,6 +56,11 @@ class pyordle():
                 # win condition 
                 if guess == self.answer:
                     print("You Won!!!")
+                    return ""
+                
+                # lose condition
+                if len(self.guesses) == 6:
+                    print("You Lose!!!")
                     return ""
         
     # defines color for each letter of a guess
@@ -95,7 +100,7 @@ class pyordle():
             word = word.upper()
             word_out = []
             for i, char in enumerate(word):
-                # lsit of letter rows
+                # list of letter rows
                 letter = figlet_format(char).split("\n")
                 
                 # color each row
