@@ -1,2 +1,4 @@
 # pyordle
-A quick command line wordle clone made for fun
+A quick command line wordle clone
+
+![image](img.png)
