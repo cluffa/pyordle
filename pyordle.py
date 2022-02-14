@@ -193,14 +193,6 @@ class pyordle():
         for row in records:
             print(row[2], "    ", row[3])
         cursor.close()
-                
-        
-        
-        
-        
-
-        
-
 
 # %%
 if __name__ == '__main__':
