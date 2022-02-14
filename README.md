@@ -1,4 +1,4 @@
 # pyordle
 A simple command line wordle clone
 
-![image](img.png)
+![gif](game.gif)
