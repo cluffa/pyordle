@@ -2,7 +2,11 @@
 from termcolor import colored
 from random import sample
 from pyfiglet import figlet_format
+from datetime import date
 import os
+import urllib.parse as up
+import psycopg2
+import uuid
 
 clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
 clearConsole()     
@@ -36,6 +40,7 @@ class pyordle():
         self.guesses = []
         self.colors = []
         self.global_width = 0
+        self.name = ""
         
         self.play_game()
     
@@ -62,11 +67,13 @@ class pyordle():
                 # win condition 
                 if guess == self.answer:
                     print("You Won!!!")
+                    self.save_stats()
                     return
                 
                 # lose condition
                 if len(self.guesses) == 6:
                     print("You Lose!!!")
+                    self.view_history()
                     return
         
     # defines color for each letter of a guess
@@ -137,8 +144,65 @@ class pyordle():
         # rerun if output width changed
         if reset_output:
             self.print_guesses()
+            
+    def save_stats(self):
+        self.name = input("Enter Name To Save Stats: ").lower()
+        if self.name == "":
+            return
+        
+        data = (
+            self.name,
+            date.today().strftime('%Y-%m-%d %H:%M:%S'),
+            self.answer,
+            len(self.guesses),
+            uuid.getnode()
+        )
+        
+        url = "postgres://wizozyvz:mvvteKfWqScUK0bWFxMo89x8SKfVP2h-@kashin.db.elephantsql.com/wizozyvz"
+        up.uses_netloc.append("postgres")
+        url = up.urlparse(url)
+        connection = psycopg2.connect(database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port
+        )
+        
+        cursor = connection.cursor()
+        cursor.execute(
+            'insert into stats(name, date, word, guesses, uuid) values(%s, %s, %s, %s, %s)',
+            data)
+        cursor.close()
+        connection.commit()
+        
+        print("History:")
+        self.view_history(connection)
+        #print("Data Saved:", data)
+            
+        
+    def view_history(self, connection):
+        cursor = connection.cursor()
+        if self.name == "":
+            self.name = input("Enter name to view history: ")
+            if self.name == "":
+                return
+
+        cursor.execute("select * from stats where name=%s", (self.name,))
+        records = cursor.fetchall()
+        print("WORD | GUESSES")
+        for row in records:
+            print(row[2], "    ", row[3])
+        cursor.close()
+                
+        
+        
+        
+        
+
+        
 
 
 # %%
-pyordle()
+if __name__ == '__main__':
+    pyordle("fight")
 # %%
