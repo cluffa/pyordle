@@ -1,2 +1,2 @@
-build/ linguist-vendored=false
-dist/ linguist-vendored=false
+build/* linguist-vendored=false
+dist/* linguist-vendored=false
