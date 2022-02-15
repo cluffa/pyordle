@@ -1,4 +1,4 @@
-__pycache__/pyordle.cpython-39.pyc
+__pycache__/
 build/pyordle/Analysis-00.toc
 build/pyordle/base_library.zip
 build/pyordle/EXE-00.toc
@@ -13,4 +13,3 @@ build/pyordle/Tree-02.toc
 build/pyordle/warn-pyordle.txt
 build/pyordle/xref-pyordle.html
 pyordle.spec
-
