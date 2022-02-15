@@ -1,7 +1,7 @@
 # pyordle
-A simple command line wordle clone  
+A simple command line wordle clone.
 Saves scores to a SQL database and displays leaderboards and game history.  
-Created to practice Python/SQL  
+Created to practice Python/SQL and to use for reinforcement learning.
 
 See releases for .exe  
 
