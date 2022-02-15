@@ -13,17 +13,6 @@ clearConsole()
 
 # load data
 from words_lists import words, answers
-""" words = []
-with open("./wordle-allowed-guesses.txt") as f:
-    for line in f:
-        words.append(line.rstrip())
-                
-answers = []
-with open("./wordle-answers-alphabetical.txt") as f:
-    for line in f:
-        answers.append(line.rstrip())
-        
-words = words + answers """
 
 # game
 class pyordle():
