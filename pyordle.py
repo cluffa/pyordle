@@ -131,7 +131,7 @@ class pyordle():
                     letter[idx] = " "*add_sides + line + " "*add_sides + " "*add_extra
                 
                 # color each row
-                colored_letter = [colored(char, colors[i]) for char in letter]
+                colored_letter = [colored(char, colors[i], attrs=["bold"]) for char in letter]
                 colored_letter = colored_letter[0:4]
                 
                 # add list of letter lines to list of letters as lines
