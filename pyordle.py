@@ -52,6 +52,8 @@ class pyordle():
             guess = input("").lower()
             
             if guess == "":
+                print("the word was", self.answer)
+                self.view_history()
                 print("exiting...")
                 return ""
 
@@ -71,10 +73,10 @@ class pyordle():
                     return
                 
                 # lose condition
-                if len(self.guesses) == 6:
-                    print("You Lose!!!")
-                    self.view_history()
-                    return
+                #if len(self.guesses) == 6:
+                #    print("You Lose!!!")
+                #    self.view_history()
+                #    return
         
     # defines color for each letter of a guess
     def color_guess(self, guess):
@@ -180,18 +182,62 @@ class pyordle():
         #print("Data Saved:", data)
             
         
-    def view_history(self, connection):
+    def view_history(self, connection = None):
+        if connection == None:
+            url = "postgres://wizozyvz:mvvteKfWqScUK0bWFxMo89x8SKfVP2h-@kashin.db.elephantsql.com/wizozyvz"
+            up.uses_netloc.append("postgres")
+            url = up.urlparse(url)
+            connection = psycopg2.connect(database=url.path[1:],
+                user=url.username,
+                password=url.password,
+                host=url.hostname,
+                port=url.port
+            )
+        
+        clearConsole()
         cursor = connection.cursor()
         if self.name == "":
             self.name = input("Enter name to view history: ")
-            if self.name == "":
-                return
-
-        cursor.execute("select * from stats where name=%s", (self.name,))
+            if self.name != "":
+                cursor.execute("select to_char(date, 'MM-DD-YYYY'), word, guesses from stats where name=%s", (self.name,))
+                records = cursor.fetchall()
+                total_guesses = 0
+                for row in records:
+                    total_guesses += row[2]
+                print("Your Average: ", total_guesses/len(records))
+                print("Your History:")
+                print("{: >12} {: >5} {: >8}".format("DATE", "WORD", "GUESSES"))
+                for row in records:
+                    print("{: >12} {: >5} {: >8}".format(*row))
+            
+        cursor.execute("select name, to_char(date, 'MM-DD-YYYY'), word, guesses from stats where name != 'test'")
         records = cursor.fetchall()
-        print("WORD | GUESSES")
+        print("\nAll History:")
+        print("{: >10} {: >12} {: >10} {: >10}".format("NAME", "DATE", "WORD", "GUESSES"))
         for row in records:
-            print(row[2], "    ", row[3])
+            print("{: >10} {: >12} {: >7} {: >8}".format(*row))
+            
+        cursor.execute("""
+            select 
+                name,
+                avg(guesses) as avg_guesses,
+                min(guesses) as min_guesses,
+                max(guesses) as max_guesses
+            from 
+                stats
+            where
+                name != 'test'
+            group by
+                name
+            order by
+                avg_guesses
+                """)
+        records = cursor.fetchall()
+        print("\nTop Players:")
+        print("{: >10} {: >10} {: >10} {: >10}".format("NAME", "AVG_GUESSES", "MIN_GUESSES", "MAX_GUESSES"))
+        for row in records:
+            print("{: >10} {: >10} {: >10} {: >10}".format(row[0], str(round(row[1], 2)), row[2], row[3]))
+            
         cursor.close()
 
 # %%
