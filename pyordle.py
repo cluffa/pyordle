@@ -40,8 +40,6 @@ class pyordle():
         self.colors = []
         self.global_width = 0
         self.name = ""
-        
-        self.play_game()
     
     def play_game(self):
         print("Game started... \nType a 5 letter word or press return to give up and view stats...")
@@ -295,4 +293,4 @@ class pyordle():
 
 # %%
 if __name__ == '__main__':
-    pyordle()
+    pyordle().play_game()
