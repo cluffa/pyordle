@@ -154,6 +154,17 @@ class pyordle():
             self.print_guesses()
             
     def save_stats(self):
+        # setup postgresSQL connection
+        url = "postgres://wizozyvz:mvvteKfWqScUK0bWFxMo89x8SKfVP2h-@kashin.db.elephantsql.com/wizozyvz"
+        up.uses_netloc.append("postgres")
+        url = up.urlparse(url)
+        connection = psycopg2.connect(database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port
+        )
+        
         # enter name or nothing to skip
         self.name = input("Enter name to save stats or press return to skip: ").lower()
         if self.name == "":
@@ -168,17 +179,6 @@ class pyordle():
             self.answer,
             len(self.guesses),
             uuid.getnode()
-        )
-        
-        # setup postgresSQL connection
-        url = "postgres://wizozyvz:mvvteKfWqScUK0bWFxMo89x8SKfVP2h-@kashin.db.elephantsql.com/wizozyvz"
-        up.uses_netloc.append("postgres")
-        url = up.urlparse(url)
-        connection = psycopg2.connect(database=url.path[1:],
-            user=url.username,
-            password=url.password,
-            host=url.hostname,
-            port=url.port
         )
         
         # save and commit game stats
