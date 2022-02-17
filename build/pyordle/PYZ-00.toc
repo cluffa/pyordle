@@ -3,10 +3,6 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\__init__.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging.__about__',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__about__.py',
-   'PYMODULE'),
   ('pkg_resources._vendor.packaging.version',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\version.py',
@@ -15,21 +11,21 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\specifiers.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging.requirements',
+  ('pkg_resources._vendor.six',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\requirements.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\six.py',
    'PYMODULE'),
-  ('string',
+  ('struct',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\string.py',
+   'data\\Programs\\Python\\python38-32\\lib\\struct.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging._structures',
+  ('pkg_resources._vendor.packaging.markers',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_structures.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\markers.py',
    'PYMODULE'),
-  ('pkg_resources._vendor',
+  ('pkg_resources._vendor.packaging',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\__init__.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__init__.py',
    'PYMODULE'),
   ('pkg_resources._vendor.packaging.tags',
    'c:\\users\\alex\\local settings\\application '
@@ -42,10 +38,6 @@
   ('ctypes._endian',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\ctypes\\_endian.py',
-   'PYMODULE'),
-  ('struct',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\struct.py',
    'PYMODULE'),
   ('distutils.util',
    'c:\\users\\alex\\local settings\\application '
@@ -163,6 +155,10 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\_threading_local.py',
    'PYMODULE'),
+  ('urllib.parse',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\urllib\\parse.py',
+   'PYMODULE'),
   ('socket',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\socket.py',
@@ -271,25 +267,37 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\distutils\\errors.py',
    'PYMODULE'),
+  ('string',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\string.py',
+   'PYMODULE'),
   ('importlib.util',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\importlib\\util.py',
-   'PYMODULE'),
-  ('pkg_resources._vendor.packaging',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__init__.py',
-   'PYMODULE'),
-  ('pkg_resources._vendor.packaging.markers',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\markers.py',
    'PYMODULE'),
   ('pkg_resources._vendor.appdirs',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\appdirs.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.six',
+  ('pkg_resources._vendor',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\six.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\__init__.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging.utils',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\utils.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging._compat',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_compat.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging.__about__',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__about__.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging._structures',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_structures.py',
    'PYMODULE'),
   ('pkg_resources._vendor.pyparsing',
    'c:\\users\\alex\\local settings\\application '
@@ -427,13 +435,9 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\pprint.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging._compat',
+  ('pkg_resources._vendor.packaging.requirements',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_compat.py',
-   'PYMODULE'),
-  ('pkg_resources._vendor.packaging.utils',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\utils.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\requirements.py',
    'PYMODULE'),
   ('sysconfig',
    'c:\\users\\alex\\local settings\\application '
@@ -927,6 +931,10 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\pathlib.py',
    'PYMODULE'),
+  ('_py_abc',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\_py_abc.py',
+   'PYMODULE'),
   ('stringprep',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\stringprep.py',
@@ -934,10 +942,6 @@
   ('tracemalloc',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\tracemalloc.py',
-   'PYMODULE'),
-  ('_py_abc',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\_py_abc.py',
    'PYMODULE'),
   ('words_lists',
    'Z:\\home\\alex\\workspace\\pyordle\\words_lists.py',
@@ -1017,10 +1021,6 @@
   ('json.scanner',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\json\\scanner.py',
-   'PYMODULE'),
-  ('urllib.parse',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\urllib\\parse.py',
    'PYMODULE'),
   ('os',
    'c:\\users\\alex\\local settings\\application '

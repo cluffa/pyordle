@@ -44,10 +44,6 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\__init__.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging.__about__',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__about__.py',
-   'PYMODULE'),
   ('pkg_resources._vendor.packaging.version',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\version.py',
@@ -56,21 +52,21 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\specifiers.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging.requirements',
+  ('pkg_resources._vendor.six',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\requirements.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\six.py',
    'PYMODULE'),
-  ('string',
+  ('struct',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\string.py',
+   'data\\Programs\\Python\\python38-32\\lib\\struct.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging._structures',
+  ('pkg_resources._vendor.packaging.markers',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_structures.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\markers.py',
    'PYMODULE'),
-  ('pkg_resources._vendor',
+  ('pkg_resources._vendor.packaging',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\__init__.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__init__.py',
    'PYMODULE'),
   ('pkg_resources._vendor.packaging.tags',
    'c:\\users\\alex\\local settings\\application '
@@ -83,10 +79,6 @@
   ('ctypes._endian',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\ctypes\\_endian.py',
-   'PYMODULE'),
-  ('struct',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\struct.py',
    'PYMODULE'),
   ('distutils.util',
    'c:\\users\\alex\\local settings\\application '
@@ -204,6 +196,10 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\_threading_local.py',
    'PYMODULE'),
+  ('urllib.parse',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\urllib\\parse.py',
+   'PYMODULE'),
   ('socket',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\socket.py',
@@ -312,25 +308,37 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\distutils\\errors.py',
    'PYMODULE'),
+  ('string',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\string.py',
+   'PYMODULE'),
   ('importlib.util',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\importlib\\util.py',
-   'PYMODULE'),
-  ('pkg_resources._vendor.packaging',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__init__.py',
-   'PYMODULE'),
-  ('pkg_resources._vendor.packaging.markers',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\markers.py',
    'PYMODULE'),
   ('pkg_resources._vendor.appdirs',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\appdirs.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.six',
+  ('pkg_resources._vendor',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\six.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\__init__.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging.utils',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\utils.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging._compat',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_compat.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging.__about__',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\__about__.py',
+   'PYMODULE'),
+  ('pkg_resources._vendor.packaging._structures',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_structures.py',
    'PYMODULE'),
   ('pkg_resources._vendor.pyparsing',
    'c:\\users\\alex\\local settings\\application '
@@ -468,13 +476,9 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\pprint.py',
    'PYMODULE'),
-  ('pkg_resources._vendor.packaging._compat',
+  ('pkg_resources._vendor.packaging.requirements',
    'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\_compat.py',
-   'PYMODULE'),
-  ('pkg_resources._vendor.packaging.utils',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\utils.py',
+   'data\\Programs\\Python\\python38-32\\lib\\site-packages\\pkg_resources\\_vendor\\packaging\\requirements.py',
    'PYMODULE'),
   ('sysconfig',
    'c:\\users\\alex\\local settings\\application '
@@ -968,6 +972,10 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\pathlib.py',
    'PYMODULE'),
+  ('_py_abc',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\lib\\_py_abc.py',
+   'PYMODULE'),
   ('stringprep',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\stringprep.py',
@@ -975,10 +983,6 @@
   ('tracemalloc',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\tracemalloc.py',
-   'PYMODULE'),
-  ('_py_abc',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\_py_abc.py',
    'PYMODULE'),
   ('words_lists',
    'Z:\\home\\alex\\workspace\\pyordle\\words_lists.py',
@@ -1059,10 +1063,6 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\json\\scanner.py',
    'PYMODULE'),
-  ('urllib.parse',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\lib\\urllib\\parse.py',
-   'PYMODULE'),
   ('os',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\os.py',
@@ -1087,17 +1087,14 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\termcolor.py',
    'PYMODULE')],
- [('api-ms-win-crt-runtime-l1-1-0.dll',
-   'C:\\windows\\system32\\api-ms-win-crt-runtime-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-locale-l1-1-0.dll',
-   'C:\\windows\\system32\\api-ms-win-crt-locale-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-math-l1-1-0.dll',
-   'C:\\windows\\system32\\api-ms-win-crt-math-l1-1-0.dll',
+ [('api-ms-win-crt-heap-l1-1-0.dll',
+   'C:\\windows\\system32\\api-ms-win-crt-heap-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-stdio-l1-1-0.dll',
    'C:\\windows\\system32\\api-ms-win-crt-stdio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-runtime-l1-1-0.dll',
+   'C:\\windows\\system32\\api-ms-win-crt-runtime-l1-1-0.dll',
    'BINARY'),
   ('VCRUNTIME140.dll',
    'c:\\users\\alex\\local settings\\application '
@@ -1107,8 +1104,11 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\python38.dll',
    'BINARY'),
-  ('api-ms-win-crt-heap-l1-1-0.dll',
-   'C:\\windows\\system32\\api-ms-win-crt-heap-l1-1-0.dll',
+  ('api-ms-win-crt-math-l1-1-0.dll',
+   'C:\\windows\\system32\\api-ms-win-crt-math-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-locale-l1-1-0.dll',
+   'C:\\windows\\system32\\api-ms-win-crt-locale-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-convert-l1-1-0.dll',
    'C:\\windows\\system32\\api-ms-win-crt-convert-l1-1-0.dll',
@@ -1116,20 +1116,20 @@
   ('api-ms-win-crt-string-l1-1-0.dll',
    'C:\\windows\\system32\\api-ms-win-crt-string-l1-1-0.dll',
    'BINARY'),
+  ('api-ms-win-crt-process-l1-1-0.dll',
+   'C:\\windows\\system32\\api-ms-win-crt-process-l1-1-0.dll',
+   'BINARY'),
   ('api-ms-win-crt-conio-l1-1-0.dll',
    'C:\\windows\\system32\\api-ms-win-crt-conio-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-filesystem-l1-1-0.dll',
    'C:\\windows\\system32\\api-ms-win-crt-filesystem-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-crt-time-l1-1-0.dll',
-   'C:\\windows\\system32\\api-ms-win-crt-time-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-process-l1-1-0.dll',
-   'C:\\windows\\system32\\api-ms-win-crt-process-l1-1-0.dll',
-   'BINARY'),
   ('api-ms-win-crt-environment-l1-1-0.dll',
    'C:\\windows\\system32\\api-ms-win-crt-environment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-time-l1-1-0.dll',
+   'C:\\windows\\system32\\api-ms-win-crt-time-l1-1-0.dll',
    'BINARY'),
   ('_ctypes',
    'c:\\users\\alex\\local settings\\application '
@@ -1142,6 +1142,10 @@
   ('_bz2',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\DLLs\\_bz2.pyd',
+   'EXTENSION'),
+  ('unicodedata',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\DLLs\\unicodedata.pyd',
    'EXTENSION'),
   ('select',
    'c:\\users\\alex\\local settings\\application '
@@ -1183,10 +1187,6 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\DLLs\\pyexpat.pyd',
    'EXTENSION'),
-  ('unicodedata',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\DLLs\\unicodedata.pyd',
-   'EXTENSION'),
   ('psycopg2._psycopg',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\lib\\site-packages\\psycopg2\\_psycopg.cp38-win32.pyd',
@@ -1195,13 +1195,13 @@
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\DLLs\\libffi-7.dll',
    'BINARY'),
-  ('libcrypto-1_1.dll',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\Programs\\Python\\python38-32\\DLLs\\libcrypto-1_1.dll',
-   'BINARY'),
   ('libssl-1_1.dll',
    'c:\\users\\alex\\local settings\\application '
    'data\\Programs\\Python\\python38-32\\DLLs\\libssl-1_1.dll',
+   'BINARY'),
+  ('libcrypto-1_1.dll',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\Programs\\Python\\python38-32\\DLLs\\libcrypto-1_1.dll',
    'BINARY'),
   ('api-ms-win-crt-utility-l1-1-0.dll',
    'C:\\windows\\system32\\api-ms-win-crt-utility-l1-1-0.dll',
@@ -1211,64 +1211,64 @@
  [('base_library.zip',
    'Z:\\home\\alex\\workspace\\pyordle\\build\\pyordle\\base_library.zip',
    'DATA'),
-  ('altgraph-0.17.2.dist-info\\WHEEL',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\WHEEL',
-   'DATA'),
-  ('altgraph-0.17.2.dist-info\\zip-safe',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\zip-safe',
-   'DATA'),
-  ('pyinstaller-4.9.dist-info\\COPYING.txt',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\COPYING.txt',
-   'DATA'),
-  ('pyinstaller-4.9.dist-info\\RECORD',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\RECORD',
-   'DATA'),
-  ('pyinstaller-4.9.dist-info\\top_level.txt',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\top_level.txt',
-   'DATA'),
   ('altgraph-0.17.2.dist-info\\LICENSE',
    'c:\\users\\alex\\local settings\\application '
    'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\LICENSE',
-   'DATA'),
-  ('pyinstaller-4.9.dist-info\\entry_points.txt',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\entry_points.txt',
-   'DATA'),
-  ('altgraph-0.17.2.dist-info\\top_level.txt',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\top_level.txt',
    'DATA'),
   ('pyinstaller-4.9.dist-info\\METADATA',
    'c:\\users\\alex\\local settings\\application '
    'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\METADATA',
    'DATA'),
-  ('pyinstaller-4.9.dist-info\\INSTALLER',
+  ('altgraph-0.17.2.dist-info\\top_level.txt',
    'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\INSTALLER',
-   'DATA'),
-  ('altgraph-0.17.2.dist-info\\RECORD',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\RECORD',
-   'DATA'),
-  ('pyinstaller-4.9.dist-info\\WHEEL',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\WHEEL',
-   'DATA'),
-  ('altgraph-0.17.2.dist-info\\METADATA',
-   'c:\\users\\alex\\local settings\\application '
-   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\METADATA',
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\top_level.txt',
    'DATA'),
   ('pyinstaller-4.9.dist-info\\REQUESTED',
    'c:\\users\\alex\\local settings\\application '
    'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\REQUESTED',
    'DATA'),
+  ('altgraph-0.17.2.dist-info\\METADATA',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\METADATA',
+   'DATA'),
+  ('pyinstaller-4.9.dist-info\\entry_points.txt',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\entry_points.txt',
+   'DATA'),
+  ('altgraph-0.17.2.dist-info\\RECORD',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\RECORD',
+   'DATA'),
+  ('pyinstaller-4.9.dist-info\\INSTALLER',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\INSTALLER',
+   'DATA'),
+  ('pyinstaller-4.9.dist-info\\RECORD',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\RECORD',
+   'DATA'),
+  ('pyinstaller-4.9.dist-info\\COPYING.txt',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\COPYING.txt',
+   'DATA'),
+  ('pyinstaller-4.9.dist-info\\WHEEL',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\WHEEL',
+   'DATA'),
   ('altgraph-0.17.2.dist-info\\INSTALLER',
    'c:\\users\\alex\\local settings\\application '
    'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\INSTALLER',
+   'DATA'),
+  ('altgraph-0.17.2.dist-info\\zip-safe',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\zip-safe',
+   'DATA'),
+  ('pyinstaller-4.9.dist-info\\top_level.txt',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\pyinstaller-4.9.dist-info\\top_level.txt',
+   'DATA'),
+  ('altgraph-0.17.2.dist-info\\WHEEL',
+   'c:\\users\\alex\\local settings\\application '
+   'data\\programs\\python\\python38-32\\lib\\site-packages\\altgraph-0.17.2.dist-info\\WHEEL',
    'DATA')],
  [])
