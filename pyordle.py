@@ -2,7 +2,7 @@
 from termcolor import colored
 from random import sample
 from pyfiglet import figlet_format
-from datetime import date
+from datetime import datetime
 import os
 import urllib.parse as up
 import psycopg2
@@ -175,7 +175,7 @@ class pyordle():
         # data to be saved
         data = (
             self.name,
-            date.today().strftime('%Y-%m-%d %H:%M:%S'),
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             self.answer,
             len(self.guesses),
             uuid.getnode()
@@ -229,7 +229,7 @@ class pyordle():
         if self.name != "" and self.name != None:
             cursor.execute("""
                 select
-                    to_char(date, 'YYYY-MM-DD') as fdate,
+                    to_char(date, 'YYYY-MM-DD HH24:MI') as fdate,
                     word,
                     guesses
                 from stats
@@ -244,9 +244,9 @@ class pyordle():
                 total_guesses += row[2]
             print("Your Average:", total_guesses/len(records))
             print("Your History:")
-            print("{: >12} {: >5} {: >8}".format("DATE(y-m-d)", "WORD", "GUESSES"))
+            print("{: >18} {: >9} {: >8}".format("DATETIME", "WORD", "GUESSES"))
             for row in records:
-                print("{: >12} {: >5} {: >8}".format(*row))
+                print("{: >18} {: >9} {: >8}".format(*row))
         
         # print top player stats
         cursor.execute("""
@@ -275,7 +275,7 @@ class pyordle():
         cursor.execute("""
             select
                 name,
-                to_char(date, 'YYYY-MM-DD') as fdate,
+                to_char(date, 'YYYY-MM-DD HH24:MI') as fdate,
                 word,
                 guesses
             from stats
@@ -284,13 +284,20 @@ class pyordle():
             """)
         records = cursor.fetchall()
         print("\nAll History:")
-        print("{: >10} {: >12} {: >7} {: >8}".format("NAME", "DATE(y-m-d)", "WORD", "GUESSES"))
+        print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"))
         for row in records:
-            print("{: >10} {: >12} {: >7} {: >8}".format(*row))
+            print("{: >10} {: >18} {: >9} {: >8}".format(*row))
         
         # close cursor
         cursor.close()
-
+        
+    def print_game(self, colors = None):
+        if colors == None:
+            colors = self.colors
+        for row in colors:
+            print(*[colored(" ", on_color="on_"+color) for color in row], sep = "")
+                
+        
 # %%
 if __name__ == '__main__':
     pyordle().play_game()
