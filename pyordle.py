@@ -4,7 +4,6 @@ from random import sample
 from pyfiglet import figlet_format
 from datetime import datetime
 import os
-import urllib.parse as up
 import psycopg2
 import uuid
 
@@ -271,7 +270,6 @@ class pyordle():
             print("{: >4} {: >12} {: >8} {: >8} {: >8} {: >8}".format(row[0], row[1], row[2], str(round(row[3], 2)), row[4], row[5]))
         
         # get and print all history
-        # TODO limit output, sort by date, newest first
         cursor.execute("""
             select
                 name,
@@ -281,9 +279,10 @@ class pyordle():
             from stats
             where name != 'test'
             order by fdate desc
+            limit 25
             """)
         records = cursor.fetchall()
-        print("\nAll History:")
+        print("\nAll History (limit 25):")
         print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"))
         for row in records:
             print("{: >10} {: >18} {: >9} {: >8}".format(*row))
@@ -299,5 +298,5 @@ class pyordle():
                 
         
 # %%
-if __name__ == '__main__':
+if __name__ == "__main__":
     pyordle().play_game()
