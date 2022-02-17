@@ -8,7 +8,6 @@ import psycopg2
 import uuid
 
 clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
-clearConsole()     
 
 # load data
 from words_lists import words, answers
@@ -39,8 +38,10 @@ class pyordle():
         self.colors = []
         self.global_width = 0
         self.name = ""
+        self.win = False
     
     def play_game(self):
+        clearConsole()
         print("Game started... \nType a 5 letter word or press return to give up and view stats...")
         
         # input loop
@@ -78,6 +79,11 @@ class pyordle():
                         self.view_history()
                         return
     
+    def manual_input(self, guess):
+        self.guesses.append(guess)
+        self.colors.append(self.color_guess(guess))
+        self.win = (guess == self.answer) or (self.win)
+        
     # TODO prompts and sets game settings
     def setup_game(self):
         self.can_lose = True
@@ -99,7 +105,7 @@ class pyordle():
                 self.guess_letters[char] = "red"
         return colors
     
-    # doesnt work
+    # prints colored alphabet
     def print_keyboard(self):
         print(" ".join([colored(letter.upper(), self.guess_letters[letter], attrs=["bold"]) for letter in self.guess_letters]))
         print("_"*(self.global_width*5 + 6))
@@ -290,11 +296,13 @@ class pyordle():
         # close cursor
         cursor.close()
         
-    def print_game(self, colors = None):
-        if colors == None:
-            colors = self.colors
-        for row in colors:
-            print(*[colored(" ", on_color="on_"+color) for color in row], sep = "")
+    def print_game(self):
+        out = []
+        for word, colors in zip(self.guesses, self.colors):
+            word = word.upper()
+            out.append("".join([colored(char, color) for char, color in zip(word, colors)]))
+        print("\n".join(out))
+            
                 
         
 # %%
