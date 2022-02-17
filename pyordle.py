@@ -155,14 +155,12 @@ class pyordle():
             
     def save_stats(self):
         # setup postgresSQL connection
-        url = "postgres://wizozyvz:mvvteKfWqScUK0bWFxMo89x8SKfVP2h-@kashin.db.elephantsql.com/wizozyvz"
-        up.uses_netloc.append("postgres")
-        url = up.urlparse(url)
-        connection = psycopg2.connect(database=url.path[1:],
-            user=url.username,
-            password=url.password,
-            host=url.hostname,
-            port=url.port
+        connection = psycopg2.connect(
+            database="wizozyvz",
+            user="wizozyvz",
+            password="mvvteKfWqScUK0bWFxMo89x8SKfVP2h-",
+            host="kashin.db.elephantsql.com",
+            port=None
         )
         
         # enter name or nothing to skip
@@ -198,14 +196,12 @@ class pyordle():
         
         # setup connection if called from outside save_stats
         if connection == None:
-            url = "postgres://wizozyvz:mvvteKfWqScUK0bWFxMo89x8SKfVP2h-@kashin.db.elephantsql.com/wizozyvz"
-            up.uses_netloc.append("postgres")
-            url = up.urlparse(url)
-            connection = psycopg2.connect(database=url.path[1:],
-                user=url.username,
-                password=url.password,
-                host=url.hostname,
-                port=url.port
+            connection = psycopg2.connect(
+                database="wizozyvz",
+                user="wizozyvz",
+                password="mvvteKfWqScUK0bWFxMo89x8SKfVP2h-",
+                host="kashin.db.elephantsql.com",
+                port=None
             )
         
         clearConsole()
