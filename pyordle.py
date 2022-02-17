@@ -251,7 +251,11 @@ class pyordle():
         # print top player stats
         cursor.execute("""
             select 
+                rank() over (
+                    order by avg(guesses)
+                ) rank,
                 name,
+                count(name) as count,
                 avg(guesses) as avg_guesses,
                 min(guesses) as min_guesses,
                 max(guesses) as max_guesses
@@ -266,9 +270,9 @@ class pyordle():
             """)
         records = cursor.fetchall()
         print("\nTop Players:")
-        print("{: >10} {: >10} {: >10} {: >10}".format("NAME", "AVG_GUESSES", "MIN_GUESSES", "MAX_GUESSES"))
+        print("{: >4} {: >12} {: >8} {: >8} {: >8} {: >8}".format("RANK", "NAME", "NGAMES", "AVG", "MIN", "MAX"))
         for row in records:
-            print("{: >10} {: >10} {: >10} {: >10}".format(row[0], str(round(row[1], 2)), row[2], row[3]))
+            print("{: >4} {: >12} {: >8} {: >8} {: >8} {: >8}".format(row[0], row[1], row[2], str(round(row[3], 2)), row[4], row[5]))
         
         # get and print all history
         # TODO limit output, sort by date, newest first
