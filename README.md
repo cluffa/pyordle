@@ -1,4 +1,4 @@
-# pyordle
+# wordpy
 A simple command line wordle clone. Scores are saved to a SQL database and leader boards and game history are printed at the end of a game.  
 
 I created this game to practice Python/SQL and to eventually use for reinforcement learning.  

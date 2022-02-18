@@ -3,6 +3,8 @@ from termcolor import colored
 from random import sample
 from pyfiglet import figlet_format
 from datetime import datetime
+import pyfiglet.fonts
+import pyfiglet.fonts
 import os
 import psycopg2
 import uuid
@@ -13,7 +15,7 @@ clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
 from words_lists import words, answers
 
 # game
-class pyordle():
+class wordpy():
     def __init__(self, quick_start = True, answer:str = None):
         # randomly pick word for answer
         if answer == None:
@@ -120,7 +122,7 @@ class pyordle():
             word_out = []
             for i, char in enumerate(word):
                 # list of letter rows
-                letter = figlet_format(char, "small").split("\n")
+                letter = figlet_format(char).split("\n") # , "small"
                 
                 # updating global letter width
                 for line in letter:
@@ -307,4 +309,4 @@ class pyordle():
         
 # %%
 if __name__ == "__main__":
-    pyordle().play_game()
+    wordpy().play_game()
