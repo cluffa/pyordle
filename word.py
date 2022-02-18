@@ -122,7 +122,7 @@ class wordpy():
             word_out = []
             for i, char in enumerate(word):
                 # list of letter rows
-                letter = figlet_format(char).split("\n") # , "small"
+                letter = figlet_format(char, "small").split("\n")
                 
                 # updating global letter width
                 for line in letter:
