@@ -9,5 +9,5 @@ See releases for .exe
 
 | Game      | Game History/Leader board |
 | ----------- | ----------- |
-| ![game](./images/gameplay.png)  | ![stats](./images/stats.png)       |
+| ![game](https://github.com/cluffa/cluffa.github.io/blob/master/images/gameplay.png?raw=true)  | ![stats](https://github.com/cluffa/cluffa.github.io/blob/master/images/stats.png?raw=true)       |
 
