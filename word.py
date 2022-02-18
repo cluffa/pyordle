@@ -3,8 +3,6 @@ from termcolor import colored
 from random import sample
 from pyfiglet import figlet_format
 from datetime import datetime
-import pyfiglet.fonts
-import pyfiglet.fonts
 import os
 import psycopg2
 import uuid
