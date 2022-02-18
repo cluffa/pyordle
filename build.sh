@@ -1,11 +1,13 @@
 #!/bin/bash
-# need wine32 with python 3.8 installed
+# need wine with python 3.8 + path installed
 
 if ! command -v wine &> /dev/null; then
-    sudo apt install wine32
+    sudo apt install wine
+    read -p "remember to checkmark 'add path', enter to continue" asdf
     wget https://www.python.org/ftp/python/3.8.8/python-3.8.8.exe
     wine python-3.8.8.exe
     rm python-3.8.8.exe  
+    rm python-3.8.8.exe.1
 fi
 
 if [ -n "$1" ]; then
