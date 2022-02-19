@@ -1,5 +1,4 @@
 # %%
-from turtle import color
 from termcolor import colored
 from random import sample
 from pyfiglet import figlet_format
