@@ -1,4 +1,5 @@
 # %%
+from turtle import color
 from termcolor import colored
 from random import sample
 from pyfiglet import figlet_format
@@ -10,35 +11,38 @@ import uuid
 clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
 
 # load data
-from words_lists import words, answers
+from words_lists import words as wordslist, answers as answerslist
 
 # game
 class wordpy():
-    def __init__(self, quick_start = True, answer:str = None):
+    def __init__(self, answer:str = None):
+        self.VERT_SEP = "|"
+        self.HOR_SEP = "="
+        self.FONT = "small"
+        self.WORD_LEN = 5
+
+        self.can_lose = False
+        self.num_trys = 6
+        self.guesses = []
+        self.colors = []
+        self.global_width = 10
+        self.name = ""
+        self.win = False
+        self.sep_len = ((self.global_width + 1)*self.WORD_LEN + 1) // len(self.HOR_SEP)
+        self.all_output = self.HOR_SEP*self.sep_len
+
         # randomly pick word for answer
         if answer == None:
-            self.answer = sample(answers, 1)[0]
+            self.answer = sample(answerslist, 1)[0]
         else:
             self.answer = answer
         
-        # TODO finish setup prompts
-        if quick_start:
-            # default settings
-            self.can_lose = False
-        else:
-            # prompts for settings
-            self.setup_game()
-            
-        self.guess_letters = dict(
-            zip(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
-                ["white"]*26)
-            )
-            
-        self.guesses = []
-        self.colors = []
-        self.global_width = 0
-        self.name = ""
-        self.win = False
+        # keeps track of "keyboard" colors 
+        self.guess_letters = dict(zip(
+            ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+            "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+            ["white"]*26
+            ))
     
     def play_game(self):
         clearConsole()
@@ -47,49 +51,56 @@ class wordpy():
         # input loop
         while True:
             guess = input("").lower()
-            
+
+            # exit condition
             if guess == "":
                 print("the word was", self.answer)
                 self.view_history()
                 input("\nPress return to exit...")
                 return 
-
-            if len(guess) != 5:
-                print("word must be 5 letters")
-            elif guess not in words:
-                print("not a word")
-            else:
+            
+            # check valid input
+            if self.valid_input(guess):
                 self.guesses.append(guess)
-                self.colors.append(self.color_guess(guess))
-                self.print_guesses()
+                colors = self.color_guess(guess)
+                self.colors.append(colors)
+                self.add_output(guess, colors)
+                self.update_game_state()
                 
                 # win condition 
                 if guess == self.answer:
-                    print("You Won!!!")
+                    self.win = True
+                    if self.can_lose:
+                        print("You Won!!!")
+                    else:
+                        print("You Got It!!!")
                     self.save_stats()
                     input("\nPress return to exit...")
                     return
-                
-                
+
                 # lose condition
-                if self.can_lose:
+                elif self.can_lose:
                     if len(self.guesses) == self.num_trys:
                         print("You Lose!!!")
                         print("The word was", self.answer)
                         self.view_history()
+                        input("\nPress return to exit...")
                         return
-    
-    def manual_input(self, guess):
-        self.guesses.append(guess)
-        self.colors.append(self.color_guess(guess))
-        self.win = (guess == self.answer) or (self.win)
-        
-    # TODO prompts and sets game settings
-    def setup_game(self):
-        self.can_lose = True
-        self.num_trys = 6
-        
-    # defines color for each letter of a guess
+
+    # check guess for validity
+    def valid_input(self, guess, length = 5, print_error = True):
+        if len(guess) != length:
+            if print_error:
+                print("must be", length, "letters")
+            return False
+        elif guess not in wordslist:
+            if print_error:
+                print("not a word")
+            return False
+        else:
+            return True
+
+    # defines color for each letter of a guess, updates value for alphabet color dict
     def color_guess(self, guess):
         colors = []
         for i, char in enumerate(guess):
@@ -106,58 +117,54 @@ class wordpy():
         return colors
     
     # prints colored alphabet
-    def print_keyboard(self):
+    # TODO change format or location, not visible in long games
+    def print_alpha(self):
         print(" ".join([colored(letter.upper(), self.guess_letters[letter], attrs=["bold"]) for letter in self.guess_letters]))
-        print("_"*(self.global_width*5 + 6))
-        
-    # prints current game state
-    def print_guesses(self):
-        clearConsole()
-        reset_output = False
-        self.print_keyboard()
-        for word, colors in zip(self.guesses, self.colors):
-            word = word.upper()
-            word_out = []
-            for i, char in enumerate(word):
-                # list of letter rows
-                letter = figlet_format(char, "small").split("\n")
-                
-                # updating global letter width
-                for line in letter:
-                    if len(line) > self.global_width:
-                        self.global_width = len(line)
-                        reset_output = True
-                        
-                # standardize row length
-                for idx, line in enumerate(letter):
-                    add = self.global_width - len(line)
+
+    # colors the figlet and adds separators
+    def colored_figlet(self, word, colors):
+        word = word.upper()
+        word_out_array = []
+
+        # iterate over each letter in each word
+        for i, plainletter in enumerate(word):
+            # split character into list of rows of ascii word art
+            letter_rows = figlet_format(plainletter, self.FONT).split("\n")
+                    
+            # standardize row length for each row in letter
+            letter_rows_trimmed = []
+            for row in letter_rows:
+                # only return row if not whitespace
+                if (not row.isspace()) and (len(row) != 0):
+                    add = self.global_width - len(row)
                     add_sides = add // 2
                     add_extra = add - add_sides*2
-                    letter[idx] = " "*add_sides + line + " "*add_sides + " "*add_extra
-                
-                # color each row
-                colored_letter = [colored(char, colors[i], attrs=["bold"]) for char in letter]
-                colored_letter = colored_letter[0:4]
-                
-                # add list of letter lines to list of letters as lines
-                word_out.append(colored_letter)
+                    letter_rows_trimmed.append(" "*add_sides + row + " "*add_sides + " "*add_extra)
             
-            # add rows for words
-            sep = "|"
-            colored_word = [sep+i+sep+j+sep+k+sep+l+sep+m+sep for i,j,k,l,m in zip(*word_out)]
-            colored_word.append("_"*(self.global_width*5 + 6))
+            # color each row of letter individually
+            colored_letter_rows = [colored(row, colors[i], attrs=["bold"]) for row in letter_rows_trimmed]
             
-            # join lines, no output if output width changes
-            out = "\n"
-            if reset_output:
-                pass
-            else:
-                print(out.join(colored_word))
-                
-        # rerun if output width changed
-        if reset_output:
-            self.print_guesses()
-            
+            # add list of letter rows
+            word_out_array.append(colored_letter_rows)             
+        
+        # combine rows of each letter & add hor, vert lines
+        colored_word_rows = [self.VERT_SEP+self.VERT_SEP.join(zipped)+self.VERT_SEP for zipped in zip(*word_out_array)]
+        colored_word_rows.append(self.HOR_SEP*self.sep_len)
+        colored_word_rows[-1] = colored_word_rows[-1]
+        colored_word = "\n".join(colored_word_rows)
+        return colored_word
+
+    # adds output to existing output with guess in colors
+    def add_output(self, guess, colors):
+        self.all_output += "\n" + self.colored_figlet(guess, colors)
+        
+    # updates current game state
+    def update_game_state(self, add_last=True):
+        clearConsole()
+        self.print_alpha()            
+        print(self.all_output)
+    
+    # saves game stats to database
     def save_stats(self):
         # setup postgresSQL connection
         connection = psycopg2.connect(
@@ -196,7 +203,7 @@ class wordpy():
         self.view_history(connection)
         #print("Data Saved:", data)
             
-        
+    # prints personal, global history, and leaderboards
     def view_history(self, connection = None):
         
         # setup connection if called from outside save_stats
@@ -236,6 +243,7 @@ class wordpy():
                 from stats
                 where name=%s
                 order by fdate desc
+                limit 10
                 """,
                 (self.name,)
             )
@@ -243,8 +251,8 @@ class wordpy():
             total_guesses = 0
             for row in records:
                 total_guesses += row[2]
-            print("Your Average:", total_guesses/len(records))
-            print("Your History:")
+            print("Your Average:", round(total_guesses/len(records),2))
+            print("Your History (last 10):")
             print("{: >18} {: >9} {: >8}".format("DATETIME", "WORD", "GUESSES"))
             for row in records:
                 print("{: >18} {: >9} {: >8}".format(*row))
@@ -285,22 +293,35 @@ class wordpy():
             from stats
             where name != 'test'
             order by fdate desc
-            limit 25
+            limit 10
             """)
         records = cursor.fetchall()
-        print("\nAll History (limit 25):")
+        print("\nAll History (last 10):")
         print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"))
         for row in records:
             print("{: >10} {: >18} {: >9} {: >8}".format(*row))
         
         # close cursor
         cursor.close()
-        
-    def print_game(self):
+
+#### functions for outside simulation
+    # manual input returns true if correct
+    def manual_input(self, guess):
+        if self.valid_input(guess, print_error = False):
+            colors = self.color_guess(guess)
+            self.guesses.append(guess)
+            self.colors.append(colors)
+            self.win = (guess == self.answer) or (self.win)
+            return False
+        else:
+            return True
+    
+    # prints game summary
+    def simple_print_game(self):
         out = []
         for word, colors in zip(self.guesses, self.colors):
             word = word.upper()
-            out.append("".join([colored(char, color) for char, color in zip(word, colors)]))
+            out.append("".join([colored(char, color, attrs=["bold"]) for char, color in zip(word, colors)]))
         print("\n".join(out))
             
                 
