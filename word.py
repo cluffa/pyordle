@@ -94,7 +94,7 @@ class wordpy():
                 colors = self.color_guess(guess)
                 self.colors.append(colors)
                 self.update_output()
-                self.update_game_state()
+                self.refresh_game_state()
                 
                 # win condition 
                 if guess == self.answer:
@@ -198,7 +198,7 @@ class wordpy():
         self.all_output += "\n" + self.colored_figlet(self.guesses[-1], self.colors[-1])
         
     # updates current game state
-    def update_game_state(self, add_last=True):
+    def refresh_game_state(self):
         clearConsole()
         self.print_alpha()            
         print(self.all_output)
@@ -325,16 +325,18 @@ class wordpy():
         cursor.close()
 
 #### functions for outside simulation
-    # manual input returns true if correct
-    def manual_input(self, guess):
+    # manual input returns true if valid input
+    def manual_input(self, guess, update_output = False):
         if self.valid_input(guess, print_error = False):
             colors = self.color_guess(guess)
             self.guesses.append(guess)
             self.colors.append(colors)
+            if update_output:
+                self.update_output()
             self.win = (guess == self.answer) or (self.win)
-            return False
-        else:
             return True
+        else:
+            return False
     
     # prints game summary
     def simple_print_game(self):
@@ -344,8 +346,6 @@ class wordpy():
             out.append("".join([colored(char, color, attrs=["bold"]) for char, color in zip(word, colors)]))
         print("\n".join(out))
             
-                
-        
 # %%
 if __name__ == "__main__":
     wordpy().play_game()
