@@ -2,6 +2,7 @@
 # need wine with python 3.8 + path installed
 
 if ! command -v wine &> /dev/null; then
+    sudo apt update
     sudo apt install wine
     read -p "remember to checkmark 'add path', enter to continue" asdf
     wget https://www.python.org/ftp/python/3.8.8/python-3.8.8.exe
