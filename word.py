@@ -8,27 +8,45 @@ import os
 import psycopg2
 import uuid
 
-clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
-
 # load data
 from words_lists import words as wordslist, answers as answerslist
+
+clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
+
+# spacing specs by font
+# width, cut off left, cut off right
+font_dict = {
+    "standard":(12, 0, 0),
+    "small":(10, 0, 0),
+    "5lineoblique":(15, 0, 1),
+    "alphabet":(7, 0, 1),
+    "banner":(9, 0, 1),
+    "big":(14, 0, 0),
+    "binary":(9, 0, 1),
+    "block":(16, 0, 0),
+    "colossal":(13, 0, 1),
+    "doh":(43, 0, 0),
+    "doom":(8, 0, 0),
+    "dotmatrix":(18, 0, 2),
+    "roman":(24, 0, 1)
+    }
 
 # game
 class wordpy():
     def __init__(self, answer:str = None):
         self.VERT_SEP = "|"
         self.HOR_SEP = "="
-        self.FONT = "small"
+        self.FONT = "big"
         self.WORD_LEN = 5
 
         self.can_lose = False
         self.num_trys = 6
         self.guesses = []
         self.colors = []
-        self.global_width = 10
+        self.global_width, self.cut_left, self.cut_right = font_dict[self.FONT]
         self.name = ""
         self.win = False
-        self.sep_len = ((self.global_width + 1)*self.WORD_LEN + 1) // len(self.HOR_SEP)
+        self.sep_len = ((self.global_width + len(self.VERT_SEP))*self.WORD_LEN + len(self.VERT_SEP)) // len(self.HOR_SEP) if len(self.HOR_SEP) != 0 else 0
         self.all_output = self.HOR_SEP*self.sep_len
 
         # randomly pick word for answer
@@ -134,12 +152,13 @@ class wordpy():
             # standardize row length for each row in letter
             letter_rows_trimmed = []
             for row in letter_rows:
+                row = row[self.cut_left:-self.cut_right] if self.cut_right != 0 else row[self.cut_left:]
                 # only return row if not whitespace
                 if (not row.isspace()) and (len(row) != 0):
                     add = self.global_width - len(row)
                     add_sides = add // 2
                     add_extra = add - add_sides*2
-                    letter_rows_trimmed.append(" "*add_sides + row + " "*add_sides + " "*add_extra)
+                    letter_rows_trimmed.append(" "*add_sides + row + " "*(add_sides + add_extra))
             
             # color each row of letter individually
             colored_letter_rows = [colored(row, colors[i], attrs=["bold"]) for row in letter_rows_trimmed]
