@@ -21,7 +21,7 @@ font_dict = {
     "5lineoblique":(15, 0, 1),
     "alphabet":(7, 0, 1),
     "banner":(9, 0, 1),
-    "big":(14, 0, 0),
+    "big":(14, 0, 0), # first letter A breaks
     "binary":(9, 0, 1),
     "block":(16, 0, 0),
     "colossal":(13, 0, 1),
@@ -34,9 +34,12 @@ font_dict = {
 # game
 class wordpy():
     def __init__(self, answer:str = None):
+        self.game_setup(answer)
+
+    def game_setup(self, answer:str = None):
         self.VERT_SEP = "|"
         self.HOR_SEP = "="
-        self.FONT = "big"
+        self.FONT = "small"
         self.WORD_LEN = 5
 
         self.can_lose = False
@@ -74,7 +77,7 @@ class wordpy():
             if guess == "":
                 print("the word was", self.answer)
                 self.view_history()
-                input("\nPress return to exit...")
+                self.quit_or_restart()
                 return 
             
             # check valid input
@@ -82,7 +85,7 @@ class wordpy():
                 self.guesses.append(guess)
                 colors = self.color_guess(guess)
                 self.colors.append(colors)
-                self.add_output(guess, colors)
+                self.update_output()
                 self.update_game_state()
                 
                 # win condition 
@@ -93,7 +96,7 @@ class wordpy():
                     else:
                         print("You Got It!!!")
                     self.save_stats()
-                    input("\nPress return to exit...")
+                    self.quit_or_restart()
                     return
 
                 # lose condition
@@ -102,8 +105,17 @@ class wordpy():
                         print("You Lose!!!")
                         print("The word was", self.answer)
                         self.view_history()
-                        input("\nPress return to exit...")
+                        self.quit_or_restart()
                         return
+    
+    def quit_or_restart(self):
+        ans = input("\nDo you want to restart (y/n)? ")
+        if ans.lower() == "y":
+            self.game_setup()
+            self.play_game()
+        elif ans.lower() == "n":
+            pass
+
 
     # check guess for validity
     def valid_input(self, guess, length = 5, print_error = True):
@@ -174,8 +186,8 @@ class wordpy():
         return colored_word
 
     # adds output to existing output with guess in colors
-    def add_output(self, guess, colors):
-        self.all_output += "\n" + self.colored_figlet(guess, colors)
+    def update_output(self):
+        self.all_output += "\n" + self.colored_figlet(self.guesses[-1], self.colors[-1])
         
     # updates current game state
     def update_game_state(self, add_last=True):
