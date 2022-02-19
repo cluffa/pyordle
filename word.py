@@ -15,7 +15,7 @@ clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
 
 # spacing specs by font
 # width, cut off left, cut off right
-font_dict = {
+FONT_DICT = {
     "standard":(12, 0, 0),
     "small":(10, 0, 0),
     "5lineoblique":(15, 0, 1),
@@ -31,26 +31,35 @@ font_dict = {
     "roman":(24, 0, 1)
     }
 
+VERT_SEP = "|"
+HOR_SEP = "="
+FONT = "small"
+WORD_LEN = 5
+CAN_LOSE = False
+NUM_TRYS = 6
+GLOBAL_WIDTH, CUT_LEFT, CUT_RIGHT = FONT_DICT[FONT]
+SEP_LEN = ((GLOBAL_WIDTH + len(VERT_SEP))*WORD_LEN + len(VERT_SEP)) // len(HOR_SEP) if len(HOR_SEP) != 0 else 0
+
+# setup postgresSQL connection
+CONNECTION = psycopg2.connect(
+        database="wizozyvz",
+        user="wizozyvz",
+        password="mvvteKfWqScUK0bWFxMo89x8SKfVP2h-",
+        host="kashin.db.elephantsql.com",
+        port=None
+    )
+
 # game
 class wordpy():
     def __init__(self, answer:str = None):
         self.game_setup(answer)
 
     def game_setup(self, answer:str = None):
-        self.VERT_SEP = "|"
-        self.HOR_SEP = "="
-        self.FONT = "small"
-        self.WORD_LEN = 5
-
-        self.can_lose = False
-        self.num_trys = 6
         self.guesses = []
         self.colors = []
-        self.global_width, self.cut_left, self.cut_right = font_dict[self.FONT]
         self.name = ""
         self.win = False
-        self.sep_len = ((self.global_width + len(self.VERT_SEP))*self.WORD_LEN + len(self.VERT_SEP)) // len(self.HOR_SEP) if len(self.HOR_SEP) != 0 else 0
-        self.all_output = self.HOR_SEP*self.sep_len
+        self.all_output = HOR_SEP*SEP_LEN
 
         # randomly pick word for answer
         if answer == None:
@@ -91,7 +100,7 @@ class wordpy():
                 # win condition 
                 if guess == self.answer:
                     self.win = True
-                    if self.can_lose:
+                    if CAN_LOSE:
                         print("You Won!!!")
                     else:
                         print("You Got It!!!")
@@ -100,8 +109,8 @@ class wordpy():
                     return
 
                 # lose condition
-                elif self.can_lose:
-                    if len(self.guesses) == self.num_trys:
+                elif CAN_LOSE:
+                    if len(self.guesses) == NUM_TRYS:
                         print("You Lose!!!")
                         print("The word was", self.answer)
                         self.view_history()
@@ -159,15 +168,15 @@ class wordpy():
         # iterate over each letter in each word
         for i, plainletter in enumerate(word):
             # split character into list of rows of ascii word art
-            letter_rows = figlet_format(plainletter, self.FONT).split("\n")
+            letter_rows = figlet_format(plainletter, FONT).split("\n")
                     
             # standardize row length for each row in letter
             letter_rows_trimmed = []
             for row in letter_rows:
-                row = row[self.cut_left:-self.cut_right] if self.cut_right != 0 else row[self.cut_left:]
+                row = row[CUT_LEFT:-CUT_RIGHT] if CUT_RIGHT != 0 else row[CUT_LEFT:]
                 # only return row if not whitespace
                 if (not row.isspace()) and (len(row) != 0):
-                    add = self.global_width - len(row)
+                    add = GLOBAL_WIDTH - len(row)
                     add_sides = add // 2
                     add_extra = add - add_sides*2
                     letter_rows_trimmed.append(" "*add_sides + row + " "*(add_sides + add_extra))
@@ -179,8 +188,8 @@ class wordpy():
             word_out_array.append(colored_letter_rows)             
         
         # combine rows of each letter & add hor, vert lines
-        colored_word_rows = [self.VERT_SEP+self.VERT_SEP.join(zipped)+self.VERT_SEP for zipped in zip(*word_out_array)]
-        colored_word_rows.append(self.HOR_SEP*self.sep_len)
+        colored_word_rows = [VERT_SEP+VERT_SEP.join(zipped)+VERT_SEP for zipped in zip(*word_out_array)]
+        colored_word_rows.append(HOR_SEP*SEP_LEN)
         colored_word_rows[-1] = colored_word_rows[-1]
         colored_word = "\n".join(colored_word_rows)
         return colored_word
@@ -197,20 +206,11 @@ class wordpy():
     
     # saves game stats to database
     def save_stats(self):
-        # setup postgresSQL connection
-        connection = psycopg2.connect(
-            database="wizozyvz",
-            user="wizozyvz",
-            password="mvvteKfWqScUK0bWFxMo89x8SKfVP2h-",
-            host="kashin.db.elephantsql.com",
-            port=None
-        )
-        
         # enter name or nothing to skip
         self.name = input("Enter name to save stats or press return to skip: ").lower()
         if self.name == "":
             self.name = None
-            self.view_history(connection)
+            self.view_history()
             return
         
         # data to be saved
@@ -223,32 +223,21 @@ class wordpy():
         )
         
         # save and commit game stats
-        cursor = connection.cursor()
+        cursor = CONNECTION.cursor()
         cursor.execute(
             'insert into stats(name, date, word, guesses, uuid) values(%s, %s, %s, %s, %s)',
             data)
         cursor.close()
-        connection.commit()
+        CONNECTION.commit()
         
         print("History:")
-        self.view_history(connection)
+        self.view_history()
         #print("Data Saved:", data)
             
     # prints personal, global history, and leaderboards
-    def view_history(self, connection = None):
-        
-        # setup connection if called from outside save_stats
-        if connection == None:
-            connection = psycopg2.connect(
-                database="wizozyvz",
-                user="wizozyvz",
-                password="mvvteKfWqScUK0bWFxMo89x8SKfVP2h-",
-                host="kashin.db.elephantsql.com",
-                port=None
-            )
-        
+    def view_history(self):
         clearConsole()
-        cursor = connection.cursor()
+        cursor = CONNECTION.cursor()
         
         # get name if not called from save stats
         if self.name == "":
@@ -264,30 +253,6 @@ class wordpy():
                 print("Name does not match any records")
                 self.name = input("Enter name to view history or press return to skip: ").lower()
             
-        # print personal stats if name is given
-        if self.name != "" and self.name != None:
-            cursor.execute("""
-                select
-                    to_char(date, 'YYYY-MM-DD HH24:MI') as fdate,
-                    word,
-                    guesses
-                from stats
-                where name=%s
-                order by fdate desc
-                limit 10
-                """,
-                (self.name,)
-            )
-            records = cursor.fetchall()
-            total_guesses = 0
-            for row in records:
-                total_guesses += row[2]
-            print("Your Average:", round(total_guesses/len(records),2))
-            print("Your History (last 10):")
-            print("{: >18} {: >9} {: >8}".format("DATETIME", "WORD", "GUESSES"))
-            for row in records:
-                print("{: >18} {: >9} {: >8}".format(*row))
-        
         # print top player stats
         cursor.execute("""
             select 
@@ -308,11 +273,27 @@ class wordpy():
             order by
                 avg_guesses
             """)
-        records = cursor.fetchall()
+        leaderboard = cursor.fetchall()
         print("\nTop Players:")
         print("{: >4} {: >12} {: >8} {: >8} {: >8} {: >8}".format("RANK", "NAME", "NGAMES", "AVG", "MIN", "MAX"))
-        for row in records:
+        for row in leaderboard:
             print("{: >4} {: >12} {: >8} {: >8} {: >8} {: >8}".format(row[0], row[1], row[2], str(round(row[3], 2)), row[4], row[5]))
+        
+        # print personal stats if name is given
+        if self.name != "" and self.name != None:
+            cursor.execute("""
+                select
+                    to_char(date, 'YYYY-MM-DD HH24:MI') as fdate,
+                    word,
+                    guesses
+                from stats
+                where name=%s
+                order by fdate desc
+                limit 10
+                """,
+                (self.name,)
+            )
+            personal_records = cursor.fetchall()
         
         # get and print all history
         cursor.execute("""
@@ -327,11 +308,20 @@ class wordpy():
             limit 10
             """)
         records = cursor.fetchall()
-        print("\nAll History (last 10):")
-        print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"))
-        for row in records:
-            print("{: >10} {: >18} {: >9} {: >8}".format(*row))
-        
+
+        if self.name != "" and self.name != None:
+            print("\nAll History (last 10):                             || Personal History (last 10):")
+            print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"), "  ||  {: >18} {: >9} {: >8}".format("DATETIME", "WORD", "GUESSES"))
+            print("=============================================================================================")
+            for row1, row2 in zip(records, personal_records):
+                print("{: >10} {: >18} {: >9} {: >8}".format(*row1), "  ||  {: >18} {: >9} {: >8}".format(*row2))
+        else:
+            print("\nAll History (last 10):")
+            print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"))
+            print("================================================")
+            for row1 in records:
+                print("{: >10} {: >18} {: >9} {: >8}".format(*row1))
+
         # close cursor
         cursor.close()
 
