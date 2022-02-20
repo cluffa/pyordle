@@ -5,7 +5,7 @@ I created this game to practice Python/SQL and to eventually use for reinforceme
 
 I have made some game design changes that make it different than the official game. There is no special conditions for double letters. For example, the first n in the word runny would be red in the official game. I also decided not to include a guess limit. I want the focus to be on getting the answer in fewer guesses and not just guessing it. This makes the leader boards and scoring based on guesses and not win/loss ratio.
 
-See releases for .exe  
+See releases for linux/windows executables
 
 | Game      | Game History/Leader board |
 | ----------- | ----------- |
