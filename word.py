@@ -302,20 +302,26 @@ class wordpy():
                 word,
                 guesses
             from stats
-            where name != 'test'
+            where
+                name != 'test' and
+                name != %s 
             order by fdate desc
             limit 10
-            """)
+            """,
+            (self.name,)
+            )
         records = cursor.fetchall()
 
         if self.name != "" and self.name != None:
-            print("\nAll History (last 10):                             || Personal History (last 10):")
-            print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"), "  ||  {: >18} {: >9} {: >8}".format("DATETIME", "WORD", "GUESSES"))
-            print("=============================================================================================")
+            print("\n{: <51}|| {: <35}".format("Recent Games Played By Others", "Personal History (last 10)"))
+            print("{: >10} {: >18} {: >9} {: >8}   ||  {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES", "DATETIME", "WORD", "GUESSES"))
+            print("===================================================||========================================")
+            records += [["-"]*len(records[0])]*(max(len(records), len(personal_records))-len(records))
+            personal_records += [["-"]*len(personal_records[0])]*(max(len(records), len(personal_records))-len(personal_records))
             for row1, row2 in zip(records, personal_records):
                 print("{: >10} {: >18} {: >9} {: >8}".format(*row1), "  ||  {: >18} {: >9} {: >8}".format(*row2))
         else:
-            print("\nAll History (last 10):")
+            print("\nRecent Games Played")
             print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"))
             print("================================================")
             for row1 in records:
