@@ -6,6 +6,7 @@ from datetime import datetime
 import os
 import psycopg2
 import uuid
+import time
 
 # load data
 from words_lists import words as wordslist, answers as answerslist
@@ -59,6 +60,8 @@ class wordpy():
         self.name = ""
         self.win = False
         self.all_output = HOR_SEP*SEP_LEN
+        self.start_time = time.time()
+        self.time_between = []
 
         # randomly pick word for answer
         if answer == None:
@@ -93,6 +96,8 @@ class wordpy():
                 self.guesses.append(guess)
                 colors = self.color_guess(guess)
                 self.colors.append(colors)
+                self.time_between.append(round(time.time() - self.start_time, 2))
+                self.start_time = time.time()
                 self.update_output()
                 self.refresh_game_state()
                 
@@ -104,6 +109,7 @@ class wordpy():
                     else:
                         print("You Got It!!!")
                     self.save_stats()
+                    self.view_history()
                     self.quit_or_restart()
                     return
 
@@ -206,11 +212,11 @@ class wordpy():
     # saves game stats to database
     def save_stats(self):
         # enter name or nothing to skip
-        self.name = input("Enter name to save stats or press return to skip: ").lower()
-        if self.name == "":
-            self.name = None
-            self.view_history()
-            return
+        if self.name == "" or self.name == None:
+            self.name = input("Enter name to save stats or press return to skip: ").lower()
+            if self.name == "":
+                self.name = None
+                return
         
         # data to be saved
         data = (
@@ -218,20 +224,25 @@ class wordpy():
             datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             self.answer,
             len(self.guesses),
-            uuid.getnode()
+            uuid.getnode(),
+            # na if over max varchar length
+            str(self.guesses) if len(str(self.guesses)) < 512 else "NA",
+            CAN_LOSE,
+            WORD_LEN,
+            NUM_TRYS,
+            # na if over max varchar length
+            str(self.time_between) if len(str(self.time_between)) < 512 else "NA"
         )
         
         # save and commit game stats
         cursor = CONNECTION.cursor()
         cursor.execute(
-            'insert into stats(name, date, word, guesses, uuid) values(%s, %s, %s, %s, %s)',
+            """
+            insert into stats(name, date, word, guesses, uuid, words_guessed, can_lose, word_length, trys_lose, time_between)
+            values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             data)
         cursor.close()
         CONNECTION.commit()
-        
-        print("History:")
-        self.view_history()
-        #print("Data Saved:", data)
             
     # prints personal, global history, and leaderboards
     def view_history(self):
@@ -337,6 +348,8 @@ class wordpy():
             colors = self.color_guess(guess)
             self.guesses.append(guess)
             self.colors.append(colors)
+            self.time_between.append(round(time.time() - self.start_time, 2))
+            self.start_time = time.time()
             if update_output:
                 self.update_output()
             self.win = (guess == self.answer) or (self.win)
