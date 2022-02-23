@@ -51,23 +51,27 @@ CONNECTION = psycopg2.connect(
 
 # game
 class wordpy():
-    def __init__(self, answer:str = None):
-        self.game_setup(answer)
+    def __init__(self, answer:str = None, name:str = None):
+        self.given_answer = answer
+        if name == None:
+            self.name = ""
+        else:
+            self.name = name
+        self.game_setup()
 
-    def game_setup(self, answer:str = None):
+    def game_setup(self):
         self.guesses = []
         self.colors = []
-        self.name = ""
         self.win = False
         self.all_output = HOR_SEP*SEP_LEN
         self.start_time = time.time()
         self.time_between = []
 
         # randomly pick word for answer
-        if answer == None:
+        if self.given_answer == None:
             self.answer = sample(answerslist, 1)[0]
         else:
-            self.answer = answer
+            self.answer = self.given_answer
         
         # keeps track of "keyboard" colors 
         self.guess_letters = dict(zip(
@@ -238,8 +242,22 @@ class wordpy():
         cursor = CONNECTION.cursor()
         cursor.execute(
             """
-            insert into stats(name, date, word, guesses, uuid, words_guessed, can_lose, word_length, trys_lose, time_between)
-            values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            INSERT INTO
+                stats(
+                    NAME,
+                    date,
+                    word,
+                    guesses,
+                    uuid,
+                    words_guessed,
+                    can_lose,
+                    word_length,
+                    trys_lose,
+                    time_between
+                )
+            VALUES
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """,
             data)
         cursor.close()
         CONNECTION.commit()
@@ -252,8 +270,10 @@ class wordpy():
         # get name if not called from save stats
         if self.name == "":
             cursor.execute("""
-                select distinct name
-                from stats
+                SELECT
+                    DISTINCT NAME
+                FROM
+                    stats
                 """)
             valid_names = cursor.fetchall()
             valid_names = [name[0] for name in valid_names]
@@ -265,22 +285,23 @@ class wordpy():
             
         # print top player stats
         cursor.execute("""
-            select 
-                rank() over (
-                    order by avg(guesses)
+            SELECT
+                rank() OVER (
+                    ORDER BY
+                        avg(guesses)
                 ) rank,
-                name,
-                count(name) as count,
-                avg(guesses) as avg_guesses,
-                min(guesses) as min_guesses,
-                max(guesses) as max_guesses
-            from 
+                NAME,
+                count(NAME) AS count,
+                avg(guesses) AS avg_guesses,
+                min(guesses) AS min_guesses,
+                max(guesses) AS max_guesses
+            FROM
                 stats
-            where
-                name != 'test'
-            group by
-                name
-            order by
+            WHERE
+                NAME != 'test'
+            GROUP BY
+                NAME
+            ORDER BY
                 avg_guesses
             """)
         leaderboard = cursor.fetchall()
@@ -292,14 +313,18 @@ class wordpy():
         # print personal stats if name is given
         if self.name != "" and self.name != None:
             cursor.execute("""
-                select
-                    to_char(date, 'YYYY-MM-DD HH24:MI') as fdate,
+                SELECT
+                    to_char(date, 'YYYY-MM-DD HH24:MI') AS fdate,
                     word,
                     guesses
-                from stats
-                where name=%s
-                order by fdate desc
-                limit 10
+                FROM
+                    stats
+                WHERE
+                    NAME = %s
+                ORDER BY
+                    fdate DESC
+                LIMIT
+                    10
                 """,
                 (self.name,)
             )
@@ -307,17 +332,20 @@ class wordpy():
         
         # get and print all history
         cursor.execute("""
-            select
-                name,
-                to_char(date, 'YYYY-MM-DD HH24:MI') as fdate,
+            SELECT
+                NAME,
+                to_char(date, 'YYYY-MM-DD HH24:MI') AS fdate,
                 word,
                 guesses
-            from stats
-            where
-                name != 'test' and
-                name != %s 
-            order by fdate desc
-            limit 10
+            FROM
+                stats
+            WHERE
+                NAME != 'test'
+                AND NAME != %s
+            ORDER BY
+                fdate DESC
+            LIMIT
+                10
             """,
             (self.name,)
             )
