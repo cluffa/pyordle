@@ -1,12 +1,17 @@
+"""
+copy of wordle
+use WordPy.play_game()
+"""
 # %%
-from termcolor import colored
-from random import sample
-from pyfiglet import figlet_format
-from datetime import datetime
-import os
-import psycopg2
 import uuid
 import time
+import os
+from random import sample
+from datetime import datetime
+
+import psycopg2
+from termcolor import colored
+from pyfiglet import figlet_format
 
 # load data
 from words_lists import words as wordslist, answers as answerslist
@@ -50,16 +55,37 @@ CONNECTION = psycopg2.connect(
     )
 
 # game
-class wordpy():
+class WordPy:
+    """
+    Copy of Wordle
+    """
     def __init__(self, answer:str = None, name:str = None):
+        self.guesses = []
+        self.colors = []
+        self.win = False
+        self.all_output = HOR_SEP*SEP_LEN
+        self.start_time = time.time()
+        self.time_between = []
+        self.answer = ""
+
+        self.guess_letters = dict(zip(
+            ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+            "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+            ["white"]*26
+            ))
+
         self.given_answer = answer
-        if name == None:
+
+        if name is None:
             self.name = ""
         else:
             self.name = name
         self.game_setup()
 
     def game_setup(self):
+        """
+        sets variables to default
+        """
         self.guesses = []
         self.colors = []
         self.win = False
@@ -68,22 +94,24 @@ class wordpy():
         self.time_between = []
 
         # randomly pick word for answer
-        if self.given_answer == None:
+        if self.given_answer is None:
             self.answer = sample(answerslist, 1)[0]
         else:
             self.answer = self.given_answer
-        
-        # keeps track of "keyboard" colors 
+
+        # keeps track of "keyboard" colors
         self.guess_letters = dict(zip(
             ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
             "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
             ["white"]*26
             ))
-    
+
     def play_game(self):
+        """
+        initiates interactive command line game
+        """
         clearConsole()
         print("Game started... \nType a 5 letter word or press return to give up and view stats...")
-        
         # input loop
         while True:
             guess = input("").lower()
@@ -93,8 +121,8 @@ class wordpy():
                 print("the word was", self.answer)
                 self.view_history()
                 self.quit_or_restart()
-                return 
-            
+                return
+
             # check valid input
             if self.valid_input(guess):
                 self.guesses.append(guess)
@@ -104,8 +132,8 @@ class wordpy():
                 self.start_time = time.time()
                 self.update_output()
                 self.refresh_game_state()
-                
-                # win condition 
+
+                # win condition
                 if guess == self.answer:
                     self.win = True
                     if CAN_LOSE:
@@ -125,8 +153,11 @@ class wordpy():
                         self.view_history()
                         self.quit_or_restart()
                         return
-    
+
     def quit_or_restart(self):
+        """
+        initaites quit or restart prompt
+        """
         ans = input("\nDo you want to restart (y/n)? ")
         if ans.lower() == "y":
             self.game_setup()
@@ -136,7 +167,17 @@ class wordpy():
 
 
     # check guess for validity
-    def valid_input(self, guess, length = 5, print_error = True):
+    def valid_input(self, guess:str, length:int = 5, print_error:bool = True) -> bool:
+        """checks guess validity
+
+        Args:
+            guess (str): word
+            length (int, optional): length of word (only 5 now). Defaults to 5.
+            print_error (bool, optional): print error to console. Defaults to True.
+
+        Returns:
+            bool: true if valid
+        """
         if len(guess) != length:
             if print_error:
                 print("must be", length, "letters")
@@ -149,7 +190,15 @@ class wordpy():
             return True
 
     # defines color for each letter of a guess, updates value for alphabet color dict
-    def color_guess(self, guess):
+    def color_guess(self, guess:str) -> list:
+        """color guess according to answer
+
+        Args:
+            guess (str): word
+
+        Returns:
+            list: list of colors as strings
+        """
         colors = []
         for i, char in enumerate(guess):
             if char == self.answer[i]:
@@ -163,14 +212,26 @@ class wordpy():
                 colors.append("red")
                 self.guess_letters[char] = "red"
         return colors
-    
+
     # prints colored alphabet
     # TODO change format or location, not visible in long games
     def print_alpha(self):
-        print(" ".join([colored(letter.upper(), self.guess_letters[letter], attrs=["bold"]) for letter in self.guess_letters]))
+        """prints colored alphabet based on current progress in game
+        """
+        print(" ".join([colored(letter.upper(), self.guess_letters[letter], attrs=["bold"])
+            for letter in self.guess_letters]))
 
     # colors the figlet and adds separators
-    def colored_figlet(self, word, colors):
+    def colored_figlet(self, word:str, colors:list) -> str:
+        """colors figlet ascii art
+
+        Args:
+            word (str): word
+            colors (list): list of colors, same length as word
+
+        Returns:
+            str: colored word as ascii art
+        """
         word = word.upper()
         word_out_array = []
 
@@ -178,7 +239,7 @@ class wordpy():
         for i, plainletter in enumerate(word):
             # split character into list of rows of ascii word art
             letter_rows = figlet_format(plainletter, FONT).split("\n")
-                    
+
             # standardize row length for each row in letter
             letter_rows_trimmed = []
             for row in letter_rows:
@@ -189,39 +250,47 @@ class wordpy():
                     add_sides = add // 2
                     add_extra = add - add_sides*2
                     letter_rows_trimmed.append(" "*add_sides + row + " "*(add_sides + add_extra))
-            
+
             # color each row of letter individually
-            colored_letter_rows = [colored(row, colors[i], attrs=["bold"]) for row in letter_rows_trimmed]
-            
+            colored_letter_rows = [
+                colored(row, colors[i], attrs=["bold"]) for row in letter_rows_trimmed]
+
             # add list of letter rows
-            word_out_array.append(colored_letter_rows)             
-        
+            word_out_array.append(colored_letter_rows)
+
         # combine rows of each letter & add hor, vert lines
-        colored_word_rows = [VERT_SEP+VERT_SEP.join(zipped)+VERT_SEP for zipped in zip(*word_out_array)]
+        colored_word_rows = [
+            VERT_SEP+VERT_SEP.join(zipped)+VERT_SEP for zipped in zip(*word_out_array)]
         colored_word_rows.append(HOR_SEP*SEP_LEN)
         colored_word_rows[-1] = colored_word_rows[-1]
         colored_word = "\n".join(colored_word_rows)
         return colored_word
 
     # adds output to existing output with guess in colors
-    def update_output(self):
+    def update_output(self) -> None:
+        """adds colored word to end of console output
+        """
         self.all_output += "\n" + self.colored_figlet(self.guesses[-1], self.colors[-1])
-        
+
     # updates current game state
-    def refresh_game_state(self):
+    def refresh_game_state(self) -> None:
+        """refreses console with current game state
+        """
         clearConsole()
-        self.print_alpha()            
+        self.print_alpha()
         print(self.all_output)
-    
+
     # saves game stats to database
-    def save_stats(self):
+    def save_stats(self) -> None:
+        """prompts player for info and saves all stats to database
+        """
         # enter name or nothing to skip
-        if self.name == "" or self.name == None:
+        if self.name == "" or self.name is None:
             self.name = input("Enter name to save stats or press return to skip: ").lower()
             if self.name == "":
                 self.name = None
                 return
-        
+
         # data to be saved
         data = (
             self.name,
@@ -237,7 +306,7 @@ class wordpy():
             # na if over max varchar length
             str(self.time_between) if len(str(self.time_between)) < 512 else "NA"
         )
-        
+
         # save and commit game stats
         cursor = CONNECTION.cursor()
         cursor.execute(
@@ -261,12 +330,14 @@ class wordpy():
             data)
         cursor.close()
         CONNECTION.commit()
-            
+
     # prints personal, global history, and leaderboards
-    def view_history(self):
+    def view_history(self) -> None:
+        """prompts user for info and prints leaderboards/history
+        """
         clearConsole()
         cursor = CONNECTION.cursor()
-        
+
         # get name if not called from save stats
         if self.name == "":
             cursor.execute("""
@@ -277,12 +348,12 @@ class wordpy():
                 """)
             valid_names = cursor.fetchall()
             valid_names = [name[0] for name in valid_names]
-            
+
             self.name = input("Enter name to view history or press return to skip: ").lower()
             while (self.name not in valid_names) & (self.name != ""):
                 print("Name does not match any records")
                 self.name = input("Enter name to view history or press return to skip: ").lower()
-            
+
         # print top player stats
         cursor.execute("""
             SELECT
@@ -306,12 +377,12 @@ class wordpy():
             """)
         leaderboard = cursor.fetchall()
         print("\nTop Players:")
-        print("{: >4} {: >12} {: >8} {: >8} {: >8} {: >8}".format("RANK", "NAME", "NGAMES", "AVG", "MIN", "MAX"))
+        print(f"{'RANK': >4} {'NAME': >12} {'NGAMES': >8} {'AVG': >8} {'MIN': >8} {'MAX': >8}")
         for row in leaderboard:
-            print("{: >4} {: >12} {: >8} {: >8} {: >8} {: >8}".format(row[0], row[1], row[2], str(round(row[3], 2)), row[4], row[5]))
-        
+            print(f"{row[0]: >4} {row[1]: >12} {row[2]: >8} {str(round(row[3], 2)): >8} {row[4]: >8} {row[5]: >8}")
+
         # print personal stats if name is given
-        if self.name != "" and self.name != None:
+        if self.name != "" and self.name is not None:
             cursor.execute("""
                 SELECT
                     to_char(date, 'YYYY-MM-DD HH24:MI') AS fdate,
@@ -329,7 +400,7 @@ class wordpy():
                 (self.name,)
             )
             personal_records = cursor.fetchall()
-        
+
         # get and print all history
         cursor.execute("""
             SELECT
@@ -351,27 +422,36 @@ class wordpy():
             )
         records = cursor.fetchall()
 
-        if self.name != "" and self.name != None:
-            print("\n{: <51}|| {: <35}".format("Recent Games Played By Others", "Personal History (last 10)"))
-            print("{: >10} {: >18} {: >9} {: >8}   ||  {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES", "DATETIME", "WORD", "GUESSES"))
+        if self.name != "" and self.name is not None:
+            print(f"\n{'Recent Games Played By Others': <51}|| {'Personal History (last 10)': <35}")
+            print(f"{'NAME': >10} {'DATETIME': >18} {'WORD': >9} {'GUESSES': >8}   ||  {'DATETIME': >18} {'WORD': >9} {'GUESSES': >8}")
             print("===================================================||========================================")
             records += [["-"]*len(records[0])]*(max(len(records), len(personal_records))-len(records))
             personal_records += [["-"]*len(personal_records[0])]*(max(len(records), len(personal_records))-len(personal_records))
             for row1, row2 in zip(records, personal_records):
-                print("{: >10} {: >18} {: >9} {: >8}".format(*row1), "  ||  {: >18} {: >9} {: >8}".format(*row2))
+                print(f"{row1[0]: >10} {row1[1]: >18} {row1[2]: >9} {row1[3]: >8}", f"  ||  {row2[0]: >18} {row2[1]: >9} {row2[2]: >8}")
         else:
             print("\nRecent Games Played")
-            print("{: >10} {: >18} {: >9} {: >8}".format("NAME", "DATETIME", "WORD", "GUESSES"))
+            print(f"{'NAME': >10} {'DATETIME': >18} {'WORD': >9} {'GUESSES': >8}")
             print("================================================")
             for row1 in records:
-                print("{: >10} {: >18} {: >9} {: >8}".format(*row1))
+                print(f"{row1[0]: >10} {row1[1]: >18} {row1[2]: >9} {row1[3]: >8}")
 
         # close cursor
         cursor.close()
 
 #### functions for outside simulation
     # manual input returns true if valid input
-    def manual_input(self, guess, update_output = False):
+    def manual_input(self, guess:str, update_output = False) -> bool:
+        """make guess through function instead of playing game
+
+        Args:
+            guess (str): word
+            update_output (bool, optional): true to update output used by refresh game. Defaults to False.
+
+        Returns:
+            bool: returns true if guess is correct
+        """
         if self.valid_input(guess, print_error = False):
             colors = self.color_guess(guess)
             self.guesses.append(guess)
@@ -384,15 +464,17 @@ class wordpy():
             return True
         else:
             return False
-    
+
     # prints game summary
-    def simple_print_game(self):
+    def simple_print_game(self) -> None:
+        """prints a simplified game state
+        """
         out = []
         for word, colors in zip(self.guesses, self.colors):
             word = word.upper()
             out.append("".join([colored(char, color, attrs=["bold"]) for char, color in zip(word, colors)]))
         print("\n".join(out))
-            
+
 # %%
 if __name__ == "__main__":
-    wordpy().play_game()
+    WordPy().play_game()
