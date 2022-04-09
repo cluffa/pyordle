@@ -3,3 +3,4 @@ test.py
 build/
 dist/
 *.spec
+venv/

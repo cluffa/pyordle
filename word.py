@@ -477,4 +477,5 @@ class WordPy:
 
 # %%
 if __name__ == "__main__":
+    # play game
     WordPy().play_game()
