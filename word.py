@@ -3,20 +3,23 @@ copy of wordle
 use WordPy.play_game()
 """
 # %%
-import uuid
-import time
 import os
-from random import sample
+import time
+import uuid
 from datetime import datetime
+from random import sample
 
 import psycopg2
-from termcolor import colored
 from pyfiglet import figlet_format
+from termcolor import colored
 
 # load data
-from words_lists import words as wordslist, answers as answerslist
+from words_lists import answers as answerslist
+from words_lists import words as wordslist
 
-clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
+
+def clearConsole():
+    return os.system("cls" if os.name in ("nt", "dos") else "clear")
 
 # spacing specs by font
 # width, cut off left, cut off right
